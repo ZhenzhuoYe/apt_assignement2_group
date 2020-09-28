@@ -1,0 +1,19 @@
+Bag class:
+1.add Linkedlist type copy getBag
+
+Engine:
+1.add Linkedlist.h, add type.h
+2.save related method be created
+3.add some related attributes in Engine.h
+
+Factory:
+1.add some tales getTiles method in Factory.h
+
+GameBoard:
+1.add some get method
+
+Player:
+1.add default contructor
+
+
+
