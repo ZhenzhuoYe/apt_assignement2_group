@@ -61,7 +61,8 @@ class Engine{
         std::vector<string> inputRecord;
         bool checkFactoryElement();// return true if all factory is empty
         Color stringToColor(string s);//convert the string to color
-        bool checkIfFactoryContainColor(Color color,int factoryNum);//check if this factory contain this kind of color;
+        bool checkIfFactoryContainColor();//check if this factory contain this kind of color;
+        bool checkInput(Player player);//check the input of a player
     
 };
 

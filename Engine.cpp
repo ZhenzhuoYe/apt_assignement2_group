@@ -69,21 +69,23 @@ void Engine::newGame(){
 
 		std::cout<<"Mosaic for "<< player1->getPlayerName()<<std::endl;
 
-		//std::cout<<player1->getGameBoard()<<std::endl;//print the gameboard
+		
+		std::cout<<*(player1->getGameBoard())<<std::endl;//print the gameboard
 
 		getPlayerInput();
 		//plyaer pick the factory and patternline
 
 
-		vector<Tile> chosenTiles;
 		//TODO:check if the facory have that color inside
-		if(checkIfFactoryContainColor(chosenColor,chosenFactory)){
-			chosenTiles = allFactory[chosenFactory].takeTile(chosenColor);
-			// give factory what color player have picked
 
-		}
+		// while(checkIfFactoryContainColor()&&checkInput(*player1)){
+		// 	getPlayerInput();
+		// }
+
+		vector<Tile> chosenTiles = allFactory[chosenFactory].takeTile(chosenColor);
+
 		
-		player1->getGameBoard().addtoPatternLine(chosenTiles, chosenRow);
+		player1->getGameBoard()->addtoPatternLine(chosenTiles, chosenRow);
 
 
 
@@ -100,10 +102,10 @@ void Engine::setupNewGame(){
 	std::cout<<"Starting a New Game"<<std::endl;
 	std::cout<<"Enter a name for player 1"<<std::endl;
 	std::cin >> playername;
-	player1 = new Player(playername);
+	player1 = new Player(playername, new GameBoard());
 	std::cout<<"Enter a name for player 2"<<std::endl;
 	std::cin >> playername;
-	player2 = new Player(playername);
+	player2 = new Player(playername, new GameBoard());
 
 	std::cout<<"Let's Play!"<<std::endl;
 	std::cout<<"=== Start Round ==="<<std::endl;
@@ -182,17 +184,30 @@ Color Engine::stringToColor(string s){
 	}
 }
 
-bool Engine::checkIfFactoryContainColor(Color color, int factoryNum){
-	Tile* currentFactory = allFactory[factoryNum].getTiles();
-	int length = allFactory[factoryNum].getLength();
+bool Engine::checkIfFactoryContainColor(){
+	Factory currentFactory = allFactory[chosenFactory];
+	int length = currentFactory.getLength();
 
 	for(int i = 0; i < length; i++){
-		if(currentFactory[i].getTileColor() == color){
+		if(currentFactory.getTiles()[i].getTileColor() == chosenColor){
 			return true;
 		}
 	}
+	
+	
+	std::cout<<"the choosen factory doesn't contain choosen color"<<std::endl;
 
 	return false;
 }
 
 
+bool Engine::checkInput(Player player){
+	Color headColor = player.getGameBoard()->getPatternLineRowColor(chosenRow);
+	
+	if(headColor == chosenColor){
+		return true;
+	}else{
+		std::cout<<"the choosen tiles doesn't match the pattern line color"<<std::endl;
+		return false;
+	}
+}

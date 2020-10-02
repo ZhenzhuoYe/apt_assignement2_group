@@ -43,7 +43,7 @@ vector<Tile> Factory::takeTile(Color color){
     std::vector<Tile> returnVector;
 
     for(int i = 0; i < length; i++){
-        if(tiles[length].getTileColor()){
+        if(tiles[i].getTileColor() == color){
             returnVector.push_back(tiles[length]);
         }
     }

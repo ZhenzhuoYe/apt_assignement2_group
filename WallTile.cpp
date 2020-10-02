@@ -5,6 +5,7 @@ WallTile::WallTile(){
 
 WallTile::WallTile(Color color){
     setColor(color);
+    wallTaileColor = color;
 }
 
 void WallTile::placeTile(){
@@ -18,3 +19,19 @@ bool WallTile::compareWithTile(Tile& tile){
         return false;
     }
 }
+
+bool WallTile::getPlaceWithTile(){
+    return this->placeWithTile;
+}
+
+
+std::ostream& operator<<(std::ostream& os, const WallTile& wt){
+    if(wt.placeWithTile == false){
+        os<<".";
+        return os;
+    }else{
+        os<< char(wt.wallTaileColor);
+        return os;
+    }
+}
+

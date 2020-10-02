@@ -47,7 +47,7 @@ class GameBoard{
         BrokenTile BrokenTile;
         PatternLine PatternLine;
 
-        int patternLineIndex[5] = {0,1,3,6,10};
+        int patternLineIndex[6] = {0,1,3,6,10,15};
 
 
 

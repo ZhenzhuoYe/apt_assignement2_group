@@ -1,15 +1,15 @@
 #include "Player.h"
 
-Player::Player(string playerName){
+Player::Player(string playerName, GameBoard* gameboard){
     this->playerName = playerName;
-    //this->gameBoard = gameBoard;
+    this->gameBoard = gameboard;
 }
 
 string Player::getPlayerName(){
     return this->playerName;
 }
 
-GameBoard Player::getGameBoard(){
+GameBoard* Player::getGameBoard(){
     return this->gameBoard;
 }
 

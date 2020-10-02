@@ -16,7 +16,6 @@ GameBoard::GameBoard(){
 
     WallTile wallTileInOrder[25] = 
     {
-        
         darkBule, yellow, red, black, lightBule,
         lightBule, darkBule, yellow, red, black,
         black,lightBule, darkBule, yellow, red,
@@ -55,7 +54,7 @@ void GameBoard::addtoPatternLine(std::vector<Tile> tiles, int row){
     bool flag = true;
 
     //loop from the row to next row terminate if vector a have left
-    for(int i = patternLineIndex[row-1]; (i < patternLineIndex[row]) && flag; i++){
+    for(int i = patternLineIndex[row]; (i < patternLineIndex[row+1]) && flag; i++){
 
         //only increment when no tiles exist on that patternline
         if(PatternLine[i].getTileColor() == NO_TILE){
@@ -94,18 +93,19 @@ std::string GameBoard::createSpace(int num){
 
 
 std::ostream& operator<<(std::ostream& os, GameBoard& gameBorard){
-    //os<<"1:     "<< char(gameBorard.getPatternLine()[1].getTileColor())<<"||";
-
 
     for(int printRow = 0; printRow<5; printRow++){
         std::string space = gameBorard.createSpace(5-printRow);
         std::string patterlineTile = gameBorard.getPatternLineByRow(printRow);
 
-        os<<printRow<<":"<<space<<patterlineTile<<"||";
+        os<<printRow+1<<":"<<space<<patterlineTile<<"||";
 
+        //add wall to the os
         for(int i = 0; i < MAX_WALL_ROW; i++){
-            os<<char(gameBorard.wall[printRow][i].getTileColor());
+            os<<gameBorard.wall[printRow][i];
         }
+
+        os<<std::endl;
     }
 
     return os;
@@ -130,16 +130,20 @@ std::string GameBoard::getPatternLineByRow(int row){
     /*
         everything between the rowindex and nexrowindex is the element that need to be taken
     */
+    // for(int i = 0; i < 15; i++){
+    //     if(i == rowIndex){
+    //         s = s +char(PatternLine[i].getTileColor());
+    //         if(i == nextRowIndex){
+    //             break;
+    //             //TODO fix break
 
-    for(int i = 0; i < 15; i++){
-        if(i == rowIndex){
-            s = s +char(PatternLine[i].getTileColor());
-            if(i == nextRowIndex){
-                break;
-                //TODO fix break
+    //         }
+    //     }
+    // }
 
-            }
-        }
+    for(int i = rowIndex; i < nextRowIndex; i++){
+        s = s +char(PatternLine[i].getTileColor());
+
     }
 
     return s;
