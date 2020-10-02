@@ -5,13 +5,11 @@ Factory::Factory(){
 
 Factory::Factory(int factoryNumber){
     /* 
+        TODO:
         if the factory number == 0; the factory is centre factory with first player token
         and shouldn't have any tile before any operation being done
 
     **/
-    
-    //TODO
-    
     if(factoryNumber == 0){
         this->factoryNumber = factoryNumber;
 
@@ -31,20 +29,24 @@ Factory::~Factory(){
 vector<Tile> Factory::clear(){
     std::vector<Tile> returnVector;
 
-    for(int i = 0; i < length; i++){
-        returnVector.push_back(tiles[length]);
+    for(int i = 0; i < tiles.size(); i++){
+        returnVector.push_back(tiles.at(i));
     }
 
-    length = 0;
+    tiles.clear();
     return returnVector;
 }
+
+
 
 vector<Tile> Factory::takeTile(Color color){
     std::vector<Tile> returnVector;
 
-    for(int i = 0; i < length; i++){
+    for(int i = 0; i < tiles.size(); i++){
         if(tiles[i].getTileColor() == color){
-            returnVector.push_back(tiles[length]);
+            //Tile t = tiles[length];
+            Tile t(color);
+            returnVector.push_back(t);
         }
     }
 
@@ -53,9 +55,8 @@ vector<Tile> Factory::takeTile(Color color){
 
 
 void Factory::addingTile(vector<Tile> addTile){
-    for(int i = 0; i < 4; i++){
-        this->tiles[i] = addTile.at(i);
-        length++;
+    for(int i = 0; i < addTile.size(); i++){
+        tiles.push_back(addTile.at(i));
     }
 }
 
@@ -73,17 +74,22 @@ int Factory::getFactoryNumber(){
 }
 
 bool Factory::ifEmpty(){
-    if(length == 0){
+    if(tiles.size() == 0){
         return true;
     }else{
         return false;
     }
 }
 
-Tile* Factory::getTiles(){
+vector<Tile> Factory::getTiles(){
     return this->tiles;
 }
 
 int Factory::getLength(){
-    return length;
+    return tiles.size();
+}
+
+void Factory::addFirstPlayerToken(){
+    Tile t(FIRST_PLAYER);
+    tiles.push_back(t);
 }

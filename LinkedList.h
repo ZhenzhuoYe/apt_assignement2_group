@@ -26,7 +26,6 @@ public:
 	void clear();   // clear the linked list
 
 	Tile getHead();// return the head of the node
-	Tile getTail();// return the tail of the node
 
 	
 private:

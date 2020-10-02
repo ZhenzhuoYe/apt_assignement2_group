@@ -39,6 +39,7 @@ class GameBoard{
 
         Color getPatternLineRowColor(int row);//get the first color of that row
 
+        std::vector<Tile> getBrokenTile();//get the broken tile
 
 
 

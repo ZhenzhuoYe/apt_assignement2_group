@@ -53,6 +53,3 @@ Tile LinkedList::getHead(){
 	return head->tile;
 }
 
-Tile LinkedList::getTail(){
-	return tail->tile;
-}

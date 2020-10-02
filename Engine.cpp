@@ -3,9 +3,19 @@
 Engine::Engine(){
 	bag = new Bag();
 
+	//fill in factory with tile
 	for(int i = 0; i < 5; i++){
 		allFactory[i].addingTile(bag->popFourTile());
 	}
+
+	//add the first player token into the factory
+	allFactory[5].addFirstPlayerToken();
+}
+
+Engine::~Engine(){
+	delete bag;
+	delete player1;
+	delete player2;
 }
 
 void Engine::start(){
@@ -34,7 +44,7 @@ void Engine::printMainMenu(){
 }
        
 int Engine::getInput(){
-
+	//TODO: only number input
 	char ch;
 	int num = -1;
 	std::cout << ">";
@@ -45,14 +55,20 @@ int Engine::getInput(){
 }
 
 void Engine::printCredit(){
+
+	std::cout<<std::endl;
+	std::cout<<"------------------------------------------"<<std::endl;
 	std::cout<<"Name: Zhenzhuo Ye, Fengquan Jiang, Yinan Huang"<<std::endl;
 	std::cout<<"Student ID: s3710760, s3692201, s3832854"<< std::endl;
 	std::cout<<"Email: s3692201@student.rmit.edu.au, s3832854@student.rmit.edu.au, s3710760@student.rmit.edu.au" << std::endl;
+	std::cout<<"------------------------------------------"<<std::endl;
+
+	std::cout<<std::endl;
+
 }
 /*
 	1. setup play
 	2. start turn
-	
 **/
 void Engine::newGame(){
 	setupNewGame();// initlalise both of the player name
@@ -63,36 +79,38 @@ void Engine::newGame(){
 			//the factory is empty time to refill
 		}
 
-		std::cout<<"TURN FOR PLAYER: "<<player1->getPlayerName()<<std::endl;
+		for(int i = 0; i < MAX_PLAYER; i++){
 
-		printAllFactory();//print the share factory to the console
+			std::cout<<"TURN FOR PLAYER: "<<players[i]->getPlayerName()<<std::endl;
 
-		std::cout<<"Mosaic for "<< player1->getPlayerName()<<std::endl;
+			printAllFactory();//print the share factory to the console
 
-		
-		std::cout<<*(player1->getGameBoard())<<std::endl;//print the gameboard
+			std::cout<<"Mosaic for "<< players[i]->getPlayerName()<<std::endl;
 
-		getPlayerInput();
-		//plyaer pick the factory and patternline
+			
+			std::cout<<*(players[i]->getGameBoard())<<std::endl;//print the gameboard
 
-
-		//TODO:check if the facory have that color inside
-
-		// while(checkIfFactoryContainColor()&&checkInput(*player1)){
-		// 	getPlayerInput();
-		// }
-
-		vector<Tile> chosenTiles = allFactory[chosenFactory].takeTile(chosenColor);
-
-		
-		player1->getGameBoard()->addtoPatternLine(chosenTiles, chosenRow);
+			getPlayerInput();
+			//plyaer pick the factory and patternline
 
 
+			//important TODO: user input loop until the reasonble input
+			//after haveing the resonble input, adding to the record
 
-		
-		
+			// while(checkIfFactoryContainColor()&&checkInput(*player1)){
+			// 	getPlayerInput();
+			// }
 
+			//take tiles from the facotry.
+			vector<Tile> chosenTiles = allFactory[chosenFactory].takeTile(chosenColor);
 
+			//add tilles to the pattern line
+			players[i]->getGameBoard()->addtoPatternLine(chosenTiles, chosenRow);
+
+			//if the factory is empty, adding tiles to the factory and start scoring
+			//TODO:
+
+		}
 	}	
 }
 
@@ -109,11 +127,16 @@ void Engine::setupNewGame(){
 
 	std::cout<<"Let's Play!"<<std::endl;
 	std::cout<<"=== Start Round ==="<<std::endl;
+
+	players[0] = player1;
+	players[1] = player2;
 }
 
 void Engine::printAllFactory(){
 	std::cout<<"Factories:"<< std::endl;
-	for(int i = 0; i < MAX_ALL_FACTORY; i++){
+	std::cout<<allFactory[5]<<std::endl;
+
+	for(int i = 0; i < 5; i++){
 		std::cout << allFactory[i] << std::endl;
 	}
 }
@@ -156,6 +179,8 @@ void Engine::getPlayerInput(){
 		chosenFactory = std::stoi(inputCollection.at(1));
 
 		chosenRow = std::stoi(inputCollection.at(3));
+	}else if(inputCollection[0] == "save"){
+		//save();
 	}
 }
 
@@ -169,6 +194,8 @@ bool Engine::checkFactoryElement(){
 }
 
 Color Engine::stringToColor(string s){
+	//TODO: adding first player token
+	
 	if(s == "B"){
 		return DARK_BLUE;
 	}else if(s == "Y"){

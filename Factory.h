@@ -28,16 +28,19 @@ class Factory {
 
         bool ifEmpty();//return true if tiles is empty
 
-        Tile* getTiles();//return array of tiles;
+        vector<Tile> getTiles();//return array of tiles;
 
         int getLength();//return the length of tiles;
+
+        void addFirstPlayerToken();// add a first player tokent into the factory;
 
     
     private:
         int factoryNumber;//the number of factory in all factorys
-        int length;//current number of tiles in this factory
+        //int length;//current number of tiles in this factory
 
-        Tile tiles[MAX_FACTORY_NUMBER];// array store all tiles
+        //Tile tiles[MAX_FACTORY_NUMBER];// array store all tiles
+        vector<Tile> tiles;
 };
 
 #endif

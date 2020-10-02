@@ -14,7 +14,8 @@ class Tile {
 		char toString();// convert enum to char for output
 		void setColor(Color color);//set the color of tile;
 
-		
+		friend std::ostream& operator<<(std::ostream& os, const Tile& tile);// operator overloading
+
 
 	
 	private:

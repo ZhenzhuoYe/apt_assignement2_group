@@ -51,31 +51,26 @@ void GameBoard::addtoBrokenTile(Tile tile){
 
 void GameBoard::addtoPatternLine(std::vector<Tile> tiles, int row){
     int tilesIndex = 0;
-    bool flag = true;
 
     //loop from the row to next row terminate if vector a have left
-    for(int i = patternLineIndex[row]; (i < patternLineIndex[row+1]) && flag; i++){
+    for(int i = patternLineIndex[row]; i < patternLineIndex[row+1]; i++){
 
         //only increment when no tiles exist on that patternline
         if(PatternLine[i].getTileColor() == NO_TILE){
             PatternLine[i] = tiles.at(tilesIndex);
-        }
-        tilesIndex++;
-
-        if(tilesIndex >= tiles.size()){
-            // row is bigger than tiles being pass
-            flag = false;
+            tilesIndex++;
         }
     }
 
-    if(flag){
-        //something left in the tiles
 
-        //put everything left in the brokenTile
+    if(tilesIndex < tiles.size()){
+        // row is bigger than tiles being pass
         for(int i = tilesIndex; i < tiles.size(); i++){
             BrokenTile.push_back(tiles.at(i));
-        }
+        }    
     }
+
+
 }
 
 Tile* GameBoard::getPatternLine(){
@@ -91,10 +86,15 @@ std::string GameBoard::createSpace(int num){
     return s;
 }
 
+std::vector<Tile> GameBoard::getBrokenTile(){
+    return this->BrokenTile;
+}
+
 
 std::ostream& operator<<(std::ostream& os, GameBoard& gameBorard){
 
     for(int printRow = 0; printRow<5; printRow++){
+        //add pattern line to os
         std::string space = gameBorard.createSpace(5-printRow);
         std::string patterlineTile = gameBorard.getPatternLineByRow(printRow);
 
@@ -104,9 +104,16 @@ std::ostream& operator<<(std::ostream& os, GameBoard& gameBorard){
         for(int i = 0; i < MAX_WALL_ROW; i++){
             os<<gameBorard.wall[printRow][i];
         }
-
         os<<std::endl;
     }
+
+    //add broken tile
+    os<<"broken:";
+    for(int i = 0; i < gameBorard.getBrokenTile().size(); i++){
+        os<< char(gameBorard.getBrokenTile().at(i).getTileColor());
+    }
+    
+    os<<std::endl;
 
     return os;
 }
@@ -142,7 +149,7 @@ std::string GameBoard::getPatternLineByRow(int row){
     // }
 
     for(int i = rowIndex; i < nextRowIndex; i++){
-        s = s +char(PatternLine[i].getTileColor());
+        s = s  + char(PatternLine[i].getTileColor());
 
     }
 
