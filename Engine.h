@@ -6,6 +6,8 @@
 #include "GameBoard.h"
 #include "Tile.h"
 #include <iostream>
+#include<fstream>
+#include <io.h>
 #include <string>
 #include "Player.h"
 #include "Bag.h"
@@ -57,7 +59,7 @@ class Engine{
         int chosenRow;// the row player picked
 
         Bag* bag;
-
+        int saveDataIndex = 1;
         std::vector<string> inputRecord;
         bool checkFactoryElement();// return true if all factory is empty
         Color stringToColor(string s);//convert the string to color

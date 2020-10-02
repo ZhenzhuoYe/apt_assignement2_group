@@ -9,6 +9,7 @@ Engine::Engine(){
 }
 
 void Engine::start(){
+    printMainMenu();
 	while (option != QUIT) {
         printMainMenu();
         getInput();
@@ -210,4 +211,28 @@ bool Engine::checkInput(Player player){
 		std::cout<<"the choosen tiles doesn't match the pattern line color"<<std::endl;
 		return false;
 	}
+}
+
+void Engine::saveGame(){
+    std::ofstream outFile;
+    std::string name = "saveData" + std::to_string(saveDataIndex) + ".txt";
+    char charName[14];
+    strcpy(charName, name.c_str());
+    //check whether file with the name has exsisted.If not,create a new one
+    if (_access(charName, 0) == -1)
+    {
+        std::ofstream outFile(charName);
+    }
+    //If exsited, create another new one
+    else
+    {
+        saveDataIndex++;
+        name = "saveData" + std::to_string(saveDataIndex) + ".txt";
+        char charName[14];
+        strcpy(charName, name.c_str());
+        std::ofstream outFile(charName);
+    }
+
+	
+
 }
