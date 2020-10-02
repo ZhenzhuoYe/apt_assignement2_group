@@ -31,3 +31,7 @@ std::vector<Tile> Bag::popFourTile(){
 
     return returnTiles;
 }
+
+LinkedList Bag::getBag(){
+    return tiles;
+}

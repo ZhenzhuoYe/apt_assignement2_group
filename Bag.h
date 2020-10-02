@@ -15,6 +15,8 @@ class Bag{
 
         std::vector<Tile> popFourTile();// pop first 4 tile to a vector inorder to pass into the factory
 
+        LinkedList getBag();//return bag
+
     private:
         LinkedList tiles;//the tile bag
 };

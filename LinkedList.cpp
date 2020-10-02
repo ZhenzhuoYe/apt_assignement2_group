@@ -53,6 +53,14 @@ Tile LinkedList::getHead(){
 	return head->tile;
 }
 
+Node* LinkedList::getHeadNode(){
+	return head;
+}
+
+int LinkedList::getSize(){
+	return size;
+}
+
 Tile LinkedList::getTail(){
 	return tail->tile;
 }

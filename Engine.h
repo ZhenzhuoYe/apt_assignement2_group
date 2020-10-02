@@ -45,6 +45,10 @@ class Engine{
         
         void getPlayerInput();//get the input for ingame player
 
+        void saveBag(std::ofstream &file, LinkedList &list);//save bag to file
+
+        void saveInputRecord(std::ofstream &file,std::vector<string> inputRecord);//save input record to file
+
 
     private:
         int option;

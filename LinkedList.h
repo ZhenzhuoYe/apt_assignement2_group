@@ -28,6 +28,9 @@ public:
 	Tile getHead();// return the head of the node
 	Tile getTail();// return the tail of the node
 
+	Node* LinkedList::getHeadNode();//return head node
+	int getSize();//return size
+
 	
 private:
 	int size;    // number of elements in linked list

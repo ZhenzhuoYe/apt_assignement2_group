@@ -233,6 +233,27 @@ void Engine::saveGame(){
         std::ofstream outFile(charName);
     }
 
-	
+	saveBag(outFile, bag->getBag());
+	outFile<<player1->getPlayerName()<<std::endl;
+	outFile<<player2->getPlayerName()<<std::endl;
+	saveInputRecord(outFile,inputRecord);
+}
 
+void Engine::saveBag(std::ofstream &file, LinkedList &list)
+{
+    Node *tmp =list.getHeadNode();
+    int len =list.getSize();
+	file<<"<";
+    for (int i = 0; i < len; i++)
+    {
+        file << char(tmp->tile.getTileColor());
+        tmp = tmp->next;
+    }
+	file<<">"<<std::endl;
+}
+
+void Engine::saveInputRecord(std::ofstream &file,std::vector<string> inputRecord){
+	for(auto &n:inputRecord){
+		file<<n<<std::endl;
+	}
 }
