@@ -36,7 +36,6 @@ class Factory {
 
         vector<Tile> takeRest();//take the rest of the tile;
 
-        void clearRowOfPatterline(int row);//clear the patterline of that row
 
     
     private:

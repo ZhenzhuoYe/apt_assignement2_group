@@ -13,6 +13,6 @@ GameBoard* Player::getGameBoard(){
     return this->gameBoard;
 }
 
-void Player::setScore(int score){
-    this->score = score;
+void Player::increaseScore(int score){
+    this->score = this->score + score;
 }

@@ -27,7 +27,7 @@ class GameBoard{
         
         void addtoPatternLine(std::vector<Tile> tiles, int row);//1. add to head of the pattern line 2. add to back of the head
         
-        void addtoWall(std::vector<Tile> tiles, int row);//check if the color is the same
+        int addtoWall(std::vector<Tile> tiles, int row);//check if the color is the same return the score
 
         friend std::ostream& operator<<(std::ostream& os, GameBoard& gameBorard);// operator overloading
 
@@ -45,12 +45,17 @@ class GameBoard{
 
         std::vector<Tile> getPatternLineInVector(int row);//return a patterline into vector by row
 
+        void clearRowOfPatterline(int row);//clear the patterline of that ro
+
+
     private:
         Wall wall;
         BrokenTile BrokenTile;
         PatternLine PatternLine;
 
         int patternLineIndex[6] = {0,1,3,6,10,15};
+
+        
 
 
 

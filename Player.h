@@ -13,7 +13,7 @@ class Player{
         
         string getPlayerName();// get this player name
         GameBoard* getGameBoard();// get the gameboard of this player
-        void setScore(int score);//set the score of the player
+        void increaseScore(int score);//set the score of the player
 
     private:
         int score;

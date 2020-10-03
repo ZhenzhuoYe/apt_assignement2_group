@@ -118,9 +118,12 @@ void Engine::newGame(){
 			for(int i = 0; i < MAX_PLAYER; i++){
 				for(int row = 0; row<5;row++){
 					if(players[i]->getGameBoard()->ifPatternLineComplete(row)){
+						//get the patterline of row in a vector
 						vector<Tile> PatternLineVector = players[i]->getGameBoard()->getPatternLineInVector(row);
-
-						players[i]->getGameBoard()->addtoWall(PatternLineVector, row);
+						//give the vector to the wall and add into wall
+						players[i]->setScore(players[i]->getGameBoard()->addtoWall(PatternLineVector, row));
+						//clear the patterline
+						players[i]->getGameBoard()->clearRowOfPatterline(row);
 					}
 				}
 			}

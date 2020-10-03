@@ -138,14 +138,17 @@ std::ostream& operator<<(std::ostream& os, GameBoard& gameBorard){
     return os;
 }
 
-void GameBoard::addtoWall(std::vector<Tile> tiles, int row){
+int GameBoard::addtoWall(std::vector<Tile> tiles, int row){
+    int score = 0;
     for(int i = 0; i < MAX_WALL_COL; i++){
         for(Tile s : tiles){
             if(wall[row][i].compareWithTile(s)){
                 wall[row][i].placeTile();
+                score = score + 2;
             }
         }
     }
+    return score;
 }
 
 std::string GameBoard::getPatternLineByRow(int row){
@@ -198,4 +201,10 @@ std::vector<Tile> GameBoard::getPatternLineInVector(int row){
         returnVector.push_back(PatternLine[i]);
     }
     return returnVector;
+}
+
+void GameBoard::clearRowOfPatterline(int row){
+    for(int i = patternLineIndex[row-1]; i < patternLineIndex[row]; i++){
+        PatternLine[i] = NO_TILE;
+    }
 }
