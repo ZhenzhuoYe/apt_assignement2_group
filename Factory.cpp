@@ -42,13 +42,18 @@ vector<Tile> Factory::clear(){
 vector<Tile> Factory::takeTile(Color color){
     std::vector<Tile> returnVector;
 
+
+
     for(int i = 0; i < tiles.size(); i++){
         if(tiles[i].getTileColor() == color){
             //Tile t = tiles[length];
             Tile t(color);
             returnVector.push_back(t);
+            tiles.erase(tiles.begin() + i);
         }
     }
+
+    
 
     return returnVector;
 }
@@ -92,4 +97,14 @@ int Factory::getLength(){
 void Factory::addFirstPlayerToken(){
     Tile t(FIRST_PLAYER);
     tiles.push_back(t);
+}
+
+vector<Tile> Factory::takeRest(){
+    vector<Tile> returnTile;
+    for(int i = 0; i < tiles.size(); i++){
+        returnTile.push_back(tiles.at(i));
+    }
+
+    tiles.clear();
+    return returnTile;
 }

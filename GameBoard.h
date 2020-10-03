@@ -41,7 +41,9 @@ class GameBoard{
 
         std::vector<Tile> getBrokenTile();//get the broken tile
 
+        bool ifPatternLineComplete(int row);//check complete row
 
+        std::vector<Tile> getPatternLineInVector(int row);//return a patterline into vector by row
 
     private:
         Wall wall;

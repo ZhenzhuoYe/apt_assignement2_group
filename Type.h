@@ -4,9 +4,9 @@
 enum Color{
 		RED = 'R', 
 		YELLOW = 'Y', 
-		DARK_BLUE = 'D', 
+		DARK_BLUE = 'B', 
 		LIGHT_BLUE = 'L', 
-		BLACK = 'B', 
+		BLACK = 'U', 
 		FIRST_PLAYER  = 'F',
 		NO_TILE = '.'
 		};

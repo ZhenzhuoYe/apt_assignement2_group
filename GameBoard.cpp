@@ -50,27 +50,47 @@ void GameBoard::addtoBrokenTile(Tile tile){
 }
 
 void GameBoard::addtoPatternLine(std::vector<Tile> tiles, int row){
+    //int row = rowin -1;
+
     int tilesIndex = 0;
+    bool flag = true;
 
-    //loop from the row to next row terminate if vector a have left
-    for(int i = patternLineIndex[row]; i < patternLineIndex[row+1]; i++){
 
-        //only increment when no tiles exist on that patternline
-        if(PatternLine[i].getTileColor() == NO_TILE){
-            PatternLine[i] = tiles.at(tilesIndex);
+    if(patternLineIndex[row] == 0){
+
+        if(PatternLine[0].getTileColor() == NO_TILE){
+
+            PatternLine[0] = tiles.at(tilesIndex);
             tilesIndex++;
         }
+        if(tilesIndex < tiles.size()){
+            // row is bigger than tiles being pass
+                for(int i = tilesIndex; i < tiles.size(); i++){
+                    BrokenTile.push_back(tiles.at(i));
+                }
+        }        
+    }else{
+        //loop from the row to next row terminate if vector a have left
+        for(int i = patternLineIndex[row-1]; (i < (patternLineIndex[row])) && flag; i++){
+            //only increment when no tiles exist on that patternline
+            if(PatternLine[i].getTileColor() == NO_TILE){
+                PatternLine[i] = tiles.at(tilesIndex);
+                tilesIndex++;
+
+                //break
+                int size = tiles.size();
+                if(tilesIndex >= size){
+                    flag = false;
+                }
+            }
+        }
+        if(tilesIndex < tiles.size()){
+            // row is bigger than tiles being pass
+            for(int i = tilesIndex; i < tiles.size(); i++){
+                BrokenTile.push_back(tiles.at(i));
+            }    
+        }
     }
-
-
-    if(tilesIndex < tiles.size()){
-        // row is bigger than tiles being pass
-        for(int i = tilesIndex; i < tiles.size(); i++){
-            BrokenTile.push_back(tiles.at(i));
-        }    
-    }
-
-
 }
 
 Tile* GameBoard::getPatternLine(){
@@ -102,7 +122,7 @@ std::ostream& operator<<(std::ostream& os, GameBoard& gameBorard){
 
         //add wall to the os
         for(int i = 0; i < MAX_WALL_ROW; i++){
-            os<<gameBorard.wall[printRow][i];
+            os<<gameBorard.wall[printRow][i] << " ";
         }
         os<<std::endl;
     }
@@ -148,9 +168,8 @@ std::string GameBoard::getPatternLineByRow(int row){
     //     }
     // }
 
-    for(int i = rowIndex; i < nextRowIndex; i++){
-        s = s  + char(PatternLine[i].getTileColor());
-
+    for(int i = nextRowIndex; i > rowIndex; i--){
+        s = s  + char(PatternLine[i-1].getTileColor());
     }
 
     return s;
@@ -158,7 +177,25 @@ std::string GameBoard::getPatternLineByRow(int row){
 }
 
 Color GameBoard::getPatternLineRowColor(int row){
-    int index = patternLineIndex[row];
+    int index = patternLineIndex[row-1];
     return PatternLine[index].getTileColor();
 }
 
+bool GameBoard::ifPatternLineComplete(int row){
+    bool returnValue = true;
+
+    for(int i = patternLineIndex[row-1]; i < patternLineIndex[row]; i++){
+        if(PatternLine[i].getTileColor() == NO_TILE){
+            returnValue = false;
+        }
+    }
+    return returnValue;
+}
+
+std::vector<Tile> GameBoard::getPatternLineInVector(int row){
+    std::vector<Tile> returnVector;
+    for(int i = patternLineIndex[row-1]; i < patternLineIndex[row]; i++){
+        returnVector.push_back(PatternLine[i]);
+    }
+    return returnVector;
+}

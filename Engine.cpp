@@ -51,6 +51,7 @@ int Engine::getInput(){
 	std::cin >> num;
 	ch = getchar(); // new line in the buffer
 	option = num;
+
 	return num;
 }
 
@@ -75,9 +76,6 @@ void Engine::newGame(){
 
 	int turn = 1;// set the turn of the game
 	while(turn < MAX_TURN){
-		if(checkFactoryElement()){
-			//the factory is empty time to refill
-		}
 
 		for(int i = 0; i < MAX_PLAYER; i++){
 
@@ -90,26 +88,43 @@ void Engine::newGame(){
 			
 			std::cout<<*(players[i]->getGameBoard())<<std::endl;//print the gameboard
 
-			getPlayerInput();
 			//plyaer pick the factory and patternline
-
-
-			//important TODO: user input loop until the reasonble input
-			//after haveing the resonble input, adding to the record
-
-			// while(checkIfFactoryContainColor()&&checkInput(*player1)){
-			// 	getPlayerInput();
-			// }
+			do{
+				getPlayerInput();
+			}while(!(checkInput(players[i])));
 
 			//take tiles from the facotry.
 			vector<Tile> chosenTiles = allFactory[chosenFactory].takeTile(chosenColor);
 
+			if(chosenFactory != 5){
+				centerFactory.addingTile(allFactory[chosenFactory].takeRest());
+			}else{
+				//centerFactory.take
+			}
+
 			//add tilles to the pattern line
 			players[i]->getGameBoard()->addtoPatternLine(chosenTiles, chosenRow);
+
+			//FIXME: for testing remove me after
+			std::cout<<*(players[i]->getGameBoard())<<std::endl;//print the gameboard
+
 
 			//if the factory is empty, adding tiles to the factory and start scoring
 			//TODO:
 
+		}
+
+		if(checkFactoryElement()){
+			for(int i = 0; i < MAX_PLAYER; i++){
+				for(int row = 0; row<5;row++){
+					if(players[i]->getGameBoard()->ifPatternLineComplete(row)){
+						vector<Tile> PatternLineVector = players[i]->getGameBoard()->getPatternLineInVector(row);
+
+						players[i]->getGameBoard()->addtoWall(PatternLineVector, row);
+					}
+				}
+			}
+			//the factory is empty time to refill
 		}
 	}	
 }
@@ -119,11 +134,14 @@ void Engine::setupNewGame(){
 
 	std::cout<<"Starting a New Game"<<std::endl;
 	std::cout<<"Enter a name for player 1"<<std::endl;
+	std::cout<<">";
 	std::cin >> playername;
 	player1 = new Player(playername, new GameBoard());
 	std::cout<<"Enter a name for player 2"<<std::endl;
+	std::cout<<">";
 	std::cin >> playername;
 	player2 = new Player(playername, new GameBoard());
+	std::cin.ignore(1024,'\n');
 
 	std::cout<<"Let's Play!"<<std::endl;
 	std::cout<<"=== Start Round ==="<<std::endl;
@@ -146,7 +164,6 @@ void Engine::getPlayerInput(){
 	string playerInput;
 	std::cout << ">";
 
-	std::cin.ignore();
     std::getline(std::cin, playerInput);
 
 	//std::cout<<playerInput<<std::endl;
@@ -176,7 +193,10 @@ void Engine::getPlayerInput(){
 		chosenColor = stringToColor(inputCollection.at(2));
 		// convert the string to color
 
-		chosenFactory = std::stoi(inputCollection.at(1));
+		chosenFactory = std::stoi(inputCollection.at(1)) - 1;
+		if(chosenFactory == -1){
+			chosenFactory = 5;
+		}
 
 		chosenRow = std::stoi(inputCollection.at(3));
 	}else if(inputCollection[0] == "save"){
@@ -211,30 +231,44 @@ Color Engine::stringToColor(string s){
 	}
 }
 
-bool Engine::checkIfFactoryContainColor(){
-	Factory currentFactory = allFactory[chosenFactory];
-	int length = currentFactory.getLength();
 
+
+
+bool Engine::checkInput(Player* player){
+	bool factoryColorCheck = false;
+	bool patternlineHeadColorCheck = true;
+
+
+	Color headColor = player->getGameBoard()->getPatternLineRowColor(chosenRow);
+	//head color of that row, if the color is "." or same as chosen color return false
+	//if the color is differnt with chosen color and the color is not "."return true
+
+	Factory currentFactory = allFactory[chosenFactory];
+	//check if the current factory have the chosen tile inside
+
+
+	int length = currentFactory.getLength();// the size of the vector
+	
 	for(int i = 0; i < length; i++){
 		if(currentFactory.getTiles()[i].getTileColor() == chosenColor){
-			return true;
+			factoryColorCheck = true;
+			//return false to break the do while loop
 		}
 	}
 	
+	if(!(factoryColorCheck)){
+		std::cout<<"the choosen factory doesn't contain choosen color"<<std::endl;
+	}
+
 	
-	std::cout<<"the choosen factory doesn't contain choosen color"<<std::endl;
-
-	return false;
-}
-
-
-bool Engine::checkInput(Player player){
-	Color headColor = player.getGameBoard()->getPatternLineRowColor(chosenRow);
-	
-	if(headColor == chosenColor){
-		return true;
+	if(headColor == chosenColor || headColor == NO_TILE){
+		patternlineHeadColorCheck = true;
 	}else{
 		std::cout<<"the choosen tiles doesn't match the pattern line color"<<std::endl;
-		return false;
+		patternlineHeadColorCheck = false;
 	}
+
+
+	return patternlineHeadColorCheck && factoryColorCheck;
+	//return true when both check pass, otherwise any pass false return false
 }

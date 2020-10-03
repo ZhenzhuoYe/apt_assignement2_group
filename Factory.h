@@ -34,6 +34,10 @@ class Factory {
 
         void addFirstPlayerToken();// add a first player tokent into the factory;
 
+        vector<Tile> takeRest();//take the rest of the tile;
+
+        void clearRowOfPatterline(int row);//clear the patterline of that row
+
     
     private:
         int factoryNumber;//the number of factory in all factorys

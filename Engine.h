@@ -72,6 +72,8 @@ class Engine{
 
         Factory allFactory[MAX_ALL_FACTORY] = {Factory(1), Factory(2), Factory(3), Factory(4),Factory(5), Factory(0)};
         //all factory, 6 index is the center facotory
+        
+        Factory& centerFactory = allFactory[5];
 
         Color chosenColor;// the color player chose to pick
         int chosenFactory;// the factory player chose to pick
@@ -83,9 +85,11 @@ class Engine{
 
         bool checkFactoryElement();// return true if all factory is empty
 
+        bool checkPatterlineFirstCol();//return the state of patterline first col
         Color stringToColor(string s);//convert the string to color
-        bool checkIfFactoryContainColor();//check if this factory contain this kind of color;
-        bool checkInput(Player player);//check the input of a player
+        bool checkInput(Player* player);//check the input of a player
+
+        void putRestIntoCenter();
     
 };
 
