@@ -208,3 +208,7 @@ void GameBoard::clearRowOfPatterline(int row){
         PatternLine[i] = NO_TILE;
     }
 }
+
+void GameBoard::addFirstPlayerToBrokenTile(){
+    BrokenTile.insert(BrokenTile.begin(), Tile(FIRST_PLAYER));
+}

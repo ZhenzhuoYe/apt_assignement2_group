@@ -47,6 +47,8 @@ class GameBoard{
 
         void clearRowOfPatterline(int row);//clear the patterline of that ro
 
+        void addFirstPlayerToBrokenTile();//add a first player token to broken
+
 
     private:
         Wall wall;

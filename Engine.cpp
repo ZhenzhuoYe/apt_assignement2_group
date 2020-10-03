@@ -20,6 +20,7 @@ Engine::~Engine(){
 
 void Engine::start(){
 	while (option != QUIT) {
+
         printMainMenu();
         getInput();
 		if (option == NEW_GAME) {
@@ -32,6 +33,8 @@ void Engine::start(){
 			printCredit();
 		}
 	}
+
+	exitProgram();
 }
 
 void Engine::printMainMenu(){
@@ -45,11 +48,15 @@ void Engine::printMainMenu(){
        
 int Engine::getInput(){
 	//TODO: only number input
-	char ch;
+
 	int num = -1;
 	std::cout << ">";
 	std::cin >> num;
-	ch = getchar(); // new line in the buffer
+
+	if(std::cin.eof()){
+		exitProgram();
+	}
+
 	option = num;
 
 	return num;
@@ -100,6 +107,13 @@ void Engine::newGame(){
 				centerFactory.addingTile(allFactory[chosenFactory].takeRest());
 			}else{
 				//centerFactory.take
+
+			}
+
+			if(chosenFactory == 5){
+				if(centerFactory.takeFirstPlayerTokenOut()){
+					players[i]->getGameBoard()->addFirstPlayerToBrokenTile();
+				}
 			}
 
 			//add tilles to the pattern line
@@ -208,12 +222,23 @@ void Engine::getPlayerInput(){
 }
 
 bool Engine::checkFactoryElement(){
+	int count = 0;
 	for(int i = 0; i < MAX_ALL_FACTORY; i++){
 		if(allFactory[i].ifEmpty()){
-			return true;
+			count++;
 		}
 	}
-	return false;
+
+	if(count == 6){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+void Engine::exitProgram(){
+	std::cout<<"Program exit"<<std::endl;
+	exit(0);
 }
 
 Color Engine::stringToColor(string s){

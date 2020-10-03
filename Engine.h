@@ -90,6 +90,8 @@ class Engine{
         bool checkInput(Player* player);//check the input of a player
 
         void putRestIntoCenter();
+
+        void exitProgram();
     
 };
 

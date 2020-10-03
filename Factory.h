@@ -36,7 +36,7 @@ class Factory {
 
         vector<Tile> takeRest();//take the rest of the tile;
 
-
+        bool takeFirstPlayerTokenOut();//take the first player token out of the tiles
     
     private:
         int factoryNumber;//the number of factory in all factorys

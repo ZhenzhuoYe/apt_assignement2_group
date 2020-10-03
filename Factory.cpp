@@ -108,3 +108,14 @@ vector<Tile> Factory::takeRest(){
     tiles.clear();
     return returnTile;
 }
+
+bool Factory::takeFirstPlayerTokenOut(){
+        for(int i = 0; i < tiles.size(); i ++){
+            if(tiles[i].getTileColor() == FIRST_PLAYER){
+                tiles.erase(tiles.begin()+i);
+                return true;
+            }
+        }
+
+    return false;
+}
