@@ -25,7 +25,13 @@ public:
 	bool isEmpty(); // return true if the linked list is empty
 	void clear();   // clear the linked list
 
-	Tile getHead();// return the head of the node
+	Node* getHead();// return the head of the node
+	Node* getTail();
+
+	int getSize();//return the size of linkedlist
+
+
+	
 
 	
 private:

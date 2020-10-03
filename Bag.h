@@ -4,6 +4,7 @@
 #include "Tile.h"
 #include "LinkedList.h"
 #include <vector>
+#include <string>
 
 class Bag{
     public:
@@ -14,8 +15,12 @@ class Bag{
 
         std::vector<Tile> popFourTile();// pop first 4 tile to a vector inorder to pass into the factory
 
+        std::string getOrder();//order in string
+
     private:
         LinkedList tiles;//the tile bag
+        std::string order;//order of the linkedlist
+
 };
 
 #endif

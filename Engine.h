@@ -6,9 +6,10 @@
 #include "GameBoard.h"
 #include "Tile.h"
 #include <iostream>
-#include <string>
+#include <fstream>
 #include "Player.h"
 #include "Bag.h"
+#include <string>
 
 #define MAX_PLAYER 2
 
@@ -82,6 +83,12 @@ class Engine{
         Bag* bag;// bag object
 
         std::vector<string> inputRecord;//store all "turn" input in the vector for saving and loading
+
+        std::vector<string> fileNames;//store all file name
+
+        string inputFileName;// user input as file name
+
+        string inGameInput;//the useringame input
 
         bool checkFactoryElement();// return true if all factory is empty
 

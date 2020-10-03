@@ -98,14 +98,17 @@ void Engine::newGame(){
 			//plyaer pick the factory and patternline
 			do{
 				getPlayerInput();
+				
 			}while(!(checkInput(players[i])));
 
+			inputRecord.push_back(inGameInput);
 			//take tiles from the facotry.
 			vector<Tile> chosenTiles = allFactory[chosenFactory].takeTile(chosenColor);
 
 			if(chosenFactory != 5){
 				centerFactory.addingTile(allFactory[chosenFactory].takeRest());
 			}else{
+				//TODO: adding the rest of facotry to the bag?
 				//centerFactory.take
 
 			}
@@ -119,13 +122,8 @@ void Engine::newGame(){
 			//add tilles to the pattern line
 			players[i]->getGameBoard()->addtoPatternLine(chosenTiles, chosenRow);
 
-			//FIXME: for testing remove me after
-			std::cout<<*(players[i]->getGameBoard())<<std::endl;//print the gameboard
-
-
 			//if the factory is empty, adding tiles to the factory and start scoring
-			//TODO:
-
+			//TODO:testing the Functionalists of adding to wall
 		}
 
 		if(checkFactoryElement()){
@@ -185,13 +183,15 @@ void Engine::getPlayerInput(){
 
 	//std::cout<<playerInput<<std::endl;
 
-	inputRecord.push_back(playerInput);
+	//inputRecord.push_back(playerInput);
 
 
 	std::vector<string> inputCollection;
 	string word;
 
 	playerInput = playerInput + " ";
+
+	inGameInput = playerInput;
 
 	for (auto x : playerInput) { 
        if (x == ' ') { 
@@ -217,7 +217,9 @@ void Engine::getPlayerInput(){
 
 		chosenRow = std::stoi(inputCollection.at(3));
 	}else if(inputCollection[0] == "save"){
-		//save();
+		//TODO: save name
+		inputFileName = inputCollection.at(1);
+		saveGame();
 	}
 }
 
@@ -267,6 +269,7 @@ bool Engine::checkInput(Player* player){
 	bool patternlineHeadColorCheck = true;
 
 
+
 	Color headColor = player->getGameBoard()->getPatternLineRowColor(chosenRow);
 	//head color of that row, if the color is "." or same as chosen color return false
 	//if the color is differnt with chosen color and the color is not "."return true
@@ -300,3 +303,37 @@ bool Engine::checkInput(Player* player){
 	return patternlineHeadColorCheck && factoryColorCheck;
 	//return true when both check pass, otherwise any pass false return false
 }
+
+void Engine::saveGame(){
+  	std::ofstream saving(inputFileName);
+	saving<<bag->getOrder()<<std::endl;
+	
+	saving<<player1->getPlayerName()<<std::endl;
+	saving<<player1->getPlayerName()<<std::endl;
+
+
+	for(int i = 0; i < inputRecord.size(); i ++){
+		saving << inputRecord.at(i)<<std::endl;
+	}
+
+	saving.close();
+}
+
+void Engine::reconstrator(string fileName){
+  	std::ifstream loading (fileName);
+	string line;
+
+	//TODO:search for exist
+
+	if (loading.is_open()){
+
+		while (getline(loading,line) ){
+			std::cout << line << '\n';
+		}
+    	loading.close();
+
+  	}
+
+
+}
+

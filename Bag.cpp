@@ -16,6 +16,15 @@ Bag::Bag(){
              }
         }
     }
+
+    Node* currentNode = tiles.getHead();
+
+    for(int i = 0; i < tiles.getSize(); i ++){
+        order = order + char(currentNode->tile.getTileColor());
+        currentNode = currentNode->next;
+    }
+
+    delete currentNode;
 }
 
 
@@ -30,9 +39,13 @@ std::vector<Tile> Bag::popFourTile(){
     std::vector<Tile> returnTiles;
 
     for(int i = 0 ; i < 4; i++){
-        returnTiles.push_back(tiles.getHead());
+        returnTiles.push_back(tiles.getHead()->tile);
         tiles.dequeue();
     }
 
     return returnTiles;
+}
+
+std::string Bag::getOrder(){
+    return order;
 }

@@ -49,7 +49,15 @@ void LinkedList::clear() {
 	}
 }
 
-Tile LinkedList::getHead(){
-	return head->tile;
+Node* LinkedList::getHead(){
+	return head;
 }
 
+Node* LinkedList::getTail(){
+	return tail;
+}
+
+
+int LinkedList::getSize(){
+	return this->size;
+}
