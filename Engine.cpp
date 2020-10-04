@@ -27,7 +27,7 @@ void Engine::start(){
 			newGame();
 		}
 		else if (option == LOAD_GAME) {
-            
+            loadGame();
 		}
 		else if (option == CREDITS) {
 			printCredit();
@@ -85,6 +85,21 @@ void Engine::newGame(){
 	while(turn < MAX_TURN){
 
 		for(int i = 0; i < MAX_PLAYER; i++){
+			if(checkFactoryElement()){
+				for(int i = 0; i < MAX_PLAYER; i++){
+					for(int row = 0; row<5;row++){
+						if(players[i]->getGameBoard()->ifPatternLineComplete(row)){
+							//get the patterline of row in a vector
+							vector<Tile> PatternLineVector = players[i]->getGameBoard()->getPatternLineInVector(row);
+							//give the vector to the wall and add into wall
+							players[i]->increaseScore(players[i]->getGameBoard()->addtoWall(PatternLineVector, row));
+							//clear the patterline
+							players[i]->getGameBoard()->clearRowOfPatterline(row);
+						}
+					}
+				}
+				//the factory is empty time to refill
+			}
 
 			std::cout<<"TURN FOR PLAYER: "<<players[i]->getPlayerName()<<std::endl;
 
@@ -108,6 +123,7 @@ void Engine::newGame(){
 			if(chosenFactory != 5){
 				centerFactory.addingTile(allFactory[chosenFactory].takeRest());
 			}else{
+				 centerFactory.takeRest();
 				//TODO: adding the rest of facotry to the bag?
 				//centerFactory.take
 
@@ -126,21 +142,7 @@ void Engine::newGame(){
 			//TODO:testing the Functionalists of adding to wall
 		}
 
-		if(checkFactoryElement()){
-			for(int i = 0; i < MAX_PLAYER; i++){
-				for(int row = 0; row<5;row++){
-					if(players[i]->getGameBoard()->ifPatternLineComplete(row)){
-						//get the patterline of row in a vector
-						vector<Tile> PatternLineVector = players[i]->getGameBoard()->getPatternLineInVector(row);
-						//give the vector to the wall and add into wall
-						players[i]->increaseScore(players[i]->getGameBoard()->addtoWall(PatternLineVector, row));
-						//clear the patterline
-						players[i]->getGameBoard()->clearRowOfPatterline(row);
-					}
-				}
-			}
-			//the factory is empty time to refill
-		}
+
 	}	
 }
 
@@ -322,18 +324,52 @@ void Engine::saveGame(){
 void Engine::reconstrator(string fileName){
   	std::ifstream loading (fileName);
 	string line;
-
+	string cinLine;
+	string order, playerName1, playerName2, playerMove;
+	
 	//TODO:search for exist
 
 	if (loading.is_open()){
 
-		while (getline(loading,line) ){
-			std::cout << line << '\n';
+		// while (getline(loading,line) ){
+		// 	//std::cout << line << '\n';
+
+		// }
+
+		for(int i = 0; getline(loading,line); i++){
+			if(i == 0){
+				//line is the order
+				/*
+					1. put order into a string 
+					
+				*/
+				order = line;
+			}else if(i == 1){
+				//line is the playerName1
+				playerName1 = line;
+
+			}else if(i == 2){
+				//line is the playerName2
+				playerName2 = line;
+			}else if(i>= 3){
+				//line is the turn
+
+			}
 		}
     	loading.close();
-
   	}
+}
 
+void Engine::loadGame(){
+	string loadGameInput;
 
+	std::cout<<"please enter the game for file to load"<<std::endl;
+
+	std::cin>>loadGameInput;
+
+	reconstrator(loadGameInput);
+	//1. read fix order and create the bag
+	//2. read player name create the player object
+	//3. read turns and replay moves
 }
 
